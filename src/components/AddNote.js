@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {FaStar,FaRegStar,FaTimes} from "react-icons/fa";
 
-function AddNote({handleAddNote}) {
+function AddNote({handleAddNote,closeNewNote}) {
 
     const [noteTitle,setNoteTitle] = useState('');
     const [noteContent,setNoteContent] = useState('');
@@ -12,7 +12,7 @@ function AddNote({handleAddNote}) {
     }
 
     const handleCloseNote = ()=>{
-        console.log("Close note");
+        closeNewNote();
     }
 
     const handleSaveNewNote = ()=>{

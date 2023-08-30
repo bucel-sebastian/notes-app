@@ -17,6 +17,7 @@ function App() {
 
 
   const [openedNote, setOpenedNote] = useState(null);
+  const [openNewNote, setOpenNewNote] = useState(false);
 
   useEffect(()=>{
     localStorage.setItem('notesList',JSON.stringify(notes));
@@ -44,25 +45,64 @@ function App() {
     switchFromNewToEdit(newNote.id);
   }
 
-  const handleNewNoteBtn = () => {}
+  const handleNewNoteBtn = () => {
+    setOpenNewNote(true);
+  }
+
+  const handleCloseNewNote = () =>{
+    setOpenNewNote(false);
+  }
 
 
   const switchFromNewToEdit = (id) => {
     
   }
 
+  const handleStarNote = (id) => {
+    const updatedNotes = [...notes];
+    updatedNotes.forEach(note => {
+      if(note.id === id){
+        note.star = !note.star;
+      }
+    });
+    setNotes(updatedNotes);
+  }
+
+  const handleDeleteNote = (id) => {
+    const updatedNotes = [...notes];
+    notes.forEach((note,index) => {
+      if(note.id === id){
+        updatedNotes.splice(index,1);
+      }
+    });
+      setNotes(updatedNotes);
+  }
+
+  const handleOpenNote = (id) => {
+    console.log("open note - ",id);
+    notes.forEach(note => {
+      if(note.id === id){
+        setOpenedNote(note);
+      }
+    });
+  }
+
+  const handleCloseNote = () => {
+    setOpenedNote(null);
+  }
+
   return (
     <div className='app-container'>
-      {/* <OpenNote /> */}
-      <AddNote handleAddNote={addNote} />
+      {openedNote !== null ? (<OpenNote noteData={openedNote} closeNote={handleCloseNote} starNote={handleStarNote} deleteNote={handleDeleteNote} />) : ""}
+      {openNewNote ? (<AddNote handleAddNote={addNote} closeNewNote={handleCloseNewNote} />) : ""}
       <div className='app-header'>
-        <h2>Notes list</h2>
+        <h1>Notes list</h1>
         <button className='add-note-btn' onClick={handleNewNoteBtn}><FaPlus/>New note</button>
       </div>
       {
         notes.length === '0' ? 
         (<h3>Nothing to see here</h3>) : 
-        (<NotesList notes={notes}/>)
+        (<NotesList starNote={handleStarNote} deleteNote={handleDeleteNote} openNote={handleOpenNote} notes={notes}/>)
       }
     </div>
   )

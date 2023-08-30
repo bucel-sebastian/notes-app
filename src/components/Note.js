@@ -2,35 +2,30 @@ import React, { useEffect, useState } from 'react'
 
 import {FaStar,FaRegStar,FaTrashAlt} from "react-icons/fa";
 
-function Note({noteData}) {
-
-    const [isStared, setIsStared] = useState(noteData.star);
+function Note({noteData, starNote, openNote, deleteNote }) {
     const noteId = noteData.id;
 
     const handleNoteStarButton = (event) => {
         event.stopPropagation();
-        setIsStared(!isStared);
+        starNote(noteId);
     }
 
     const handleDeleteNote = (event) => {
         event.stopPropagation();
-        console.log("Delete note ");
+        deleteNote(noteId);
     }
 
     const handleOpenNote = ()=>{
-        console.log("Open note");
+        openNote(noteId);
     }
 
-    useEffect(()=>{
-        noteData.star = isStared;
-    },[isStared])
   return (
     <div className='note-container' onClick={handleOpenNote} key={noteData.id}>
         <div className='note-header'>
             <div className='note-header-first-row'>
                 <div className='note-header-first-row-col'>
                     <button className='note-star-btn' onClick={handleNoteStarButton}>
-                        {isStared ? <FaStar/> : <FaRegStar/>} 
+                        {noteData.star ? <FaStar/> : <FaRegStar/>} 
                     </button>
                     <h3 className='note-title'>{noteData.title}</h3>
                 </div>
