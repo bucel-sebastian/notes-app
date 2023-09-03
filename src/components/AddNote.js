@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import {FaStar,FaRegStar,FaTimes} from "react-icons/fa";
+import {FaStar,FaRegStar,FaTimes, FaSave} from "react-icons/fa";
+import ColorSwitcher from './ColorSwitcher';
 
 function AddNote({handleAddNote,closeNewNote}) {
 
     const [noteTitle,setNoteTitle] = useState('');
     const [noteContent,setNoteContent] = useState('');
+    const [noteColor, setNoteColor] = useState('#FFF9B1');
 
     const handleCloseNewNote = (event) => {
         event.stopPropagation();
@@ -19,7 +21,12 @@ function AddNote({handleAddNote,closeNewNote}) {
         if(noteTitle === '' && noteContent === ''){
             return;
         }
-        handleAddNote(noteTitle,noteContent)
+        const noteData = {
+            title: noteTitle,
+            content: noteContent,
+            color: noteColor
+        };
+        handleAddNote(noteData)
     }
 
     const handleNoteTitleChange = (event) => {
@@ -30,9 +37,14 @@ function AddNote({handleAddNote,closeNewNote}) {
         setNoteContent(event.target.value);
     }
 
+    const handleSwitchColor = (color) =>{
+        setNoteColor(color);
+    }
+
+
   return (
     <div className='open-note-container' onClick={handleCloseNote}>
-        <div className='open-note-box' onClick={(event)=>{event.stopPropagation();}}>
+        <div className='open-note-box' style={{backgroundColor: noteColor}} onClick={(event)=>{event.stopPropagation();}}>
             <div className='note-header'>
                 <div className='note-header-first-row'>
                     <div className='note-header-first-row-col'>
@@ -41,11 +53,13 @@ function AddNote({handleAddNote,closeNewNote}) {
                             <input placeholder='Note title' className='edit-note-title' maxLength={50} value={noteTitle} onChange={handleNoteTitleChange}/>
                         </h3>
                     </div>
-                    <button onClick={handleSaveNewNote}>
+                    <button className='note-save-btn' onClick={handleSaveNewNote}>
+                        <FaSave />
                         Save
                     </button>
-                    <button className='note-trash-btn' onClick={handleCloseNewNote}>
+                    <button className='note-cancel-btn' onClick={handleCloseNewNote}>
                         <FaTimes />
+                        Cancel
                     </button>
                 </div>
                 <small className='note-date'>
@@ -58,6 +72,9 @@ function AddNote({handleAddNote,closeNewNote}) {
                 <textarea placeholder='Note content' className='edit-note-content' value={noteContent} onChange={handleNoteContentChange} />
 
             
+            </div>
+            <div className='note-footer'>
+                <ColorSwitcher switchColor={handleSwitchColor}/>
             </div>
         </div>
         

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Note from './Note'
 
-function NotesList({notes, starNote, openNote, deleteNote}) {
+function NotesList({notes, starNote, openNote, deleteNote, searchInput}) {
 
   const [staredNotes,setStaredNotes] = useState(0);
 
@@ -29,7 +29,7 @@ function NotesList({notes, starNote, openNote, deleteNote}) {
   
   return (
     <div>
-      {staredNotes > 0 ? (<div>
+      {(staredNotes > 0 && searchInput === '') ? (<div>
         <h2>Stared notes</h2>
         <div className='notes-list'>
           {
@@ -45,9 +45,11 @@ function NotesList({notes, starNote, openNote, deleteNote}) {
           <h2>All notes</h2>
         <div className='notes-list'>
             {
-                notes.map((note)=>(
+                searchInput === '' ? notes.map((note)=>(
                     <Note openNote={handleOpenNote} starNote={handleStarNote} deleteNote={handleDeleteNote} noteData={note} key={note.id}/>
 
+                )) : notes.filter(note => note.title.toLowerCase().includes(searchInput.toLowerCase())).map(note=>(
+                  <Note openNote={handleOpenNote} starNote={handleStarNote} deleteNote={handleDeleteNote} noteData={note} key={note.id}/>
                 ))
             }
             

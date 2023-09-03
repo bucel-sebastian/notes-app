@@ -92,6 +92,14 @@ h3 {
 .note-header{
   height: 50px;
 }
+
+.note-footer{
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+}
 .note-header small{
   user-select: none;
 
@@ -222,6 +230,77 @@ h3 {
   font-family:'Lato', sans-serif;
 }
 
+.note-save-btn{
+  display:flex;
+  flex-direction: row;
+  gap:3px;
+  padding: 4px 9px;
+  border:none;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: 7px 16px;
+  background: rgb(172, 255, 172);
+  border-radius: 13px;
+  font-size: 16px;
+  font-weight: 600;
+  border: 1px solid #1a1a1a55;
+  cursor: pointer;
+}
+
+.note-cancel-btn{
+  display:flex;
+  flex-direction: row;
+  gap:3px;
+  padding: 4px 9px;
+  border:none;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: 7px 16px;
+  background: rgb(255, 190, 172);
+  border-radius: 13px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #1a1a1a55;
+  margin-left:5px;
+}
+
+
+.color-switcher-button{
+  border: 1px solid #1a1a1a55;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  border-radius: 100px;
+}
+
+.color-switcher-container{
+  display: flex;
+  flex-direction: row;
+  gap:3px;
+}
+
+.search-input-container{
+  border:1px solid #1a1a1a55;
+  padding: 0 10px;
+  margin:0;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  min-width: 300px;
+
+}
+
+.search-input-container input{
+  border: none;
+  outline: none;
+  width: 100%;
+  margin-right: 3px;
+}
 
 
 @media only screen and (max-width: 600px) {

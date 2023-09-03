@@ -3,7 +3,7 @@ import NotesList from './components/NotesList'
 import OpenNote from './components/OpenNote'
 import { nanoid } from 'nanoid';
 
-import {FaPlus} from 'react-icons/fa';
+import {FaPlus, FaSearch} from 'react-icons/fa';
 import AddNote from './components/AddNote';
 
 function App() {
@@ -19,6 +19,8 @@ function App() {
   const [openedNote, setOpenedNote] = useState(null);
   const [openNewNote, setOpenNewNote] = useState(false);
 
+  const [searchInput, setSearchInput] = useState('');
+
   useEffect(()=>{
     localStorage.setItem('notesList',JSON.stringify(notes));
   },[notes]);
@@ -27,17 +29,16 @@ function App() {
   
   console.log(notes);
 
-  const addNote = (title,content) => {
-
-
+  const addNote = (noteData) => {
     const date = new Date();
 
     const newNote = {
       id: nanoid(),
-      title: title,
+      title: noteData.title,
       star: false,
       date: date.toLocaleDateString("en-GB"),
-      content: content
+      content: noteData.content,
+      color: noteData.color
     }
 
     const newNotes = [...notes,newNote];
@@ -54,9 +55,7 @@ function App() {
   }
 
 
-  const switchFromNewToEdit = (id) => {
-    
-  }
+  
 
   const handleStarNote = (id) => {
     const updatedNotes = [...notes];
@@ -80,6 +79,7 @@ function App() {
 
   const handleOpenNote = (id) => {
     console.log("open note - ",id);
+    console.log("notes - ",notes);
     notes.forEach(note => {
       if(note.id === id){
         setOpenedNote(note);
@@ -91,60 +91,50 @@ function App() {
     setOpenedNote(null);
   }
 
+  const switchFromNewToEdit = (id) => {
+    handleCloseNewNote();
+    handleOpenNote(id);
+  }
+
+  const handleEditNote = (editedNoteData) => {
+    const updatedNotes = [...notes];
+    const date = new Date();
+
+    updatedNotes.forEach((note)=>{
+      if(note.id === editedNoteData.id){
+        note.content = editedNoteData.content;
+        note.title = editedNoteData.title;
+        note.date= date.toLocaleDateString("en-GB");
+        note.star = editedNoteData.star;
+        note.color = editedNoteData.color;
+      }
+    });
+    setNotes(updatedNotes);
+  }
+
+  const handleSearchBar = (e) => {
+    setSearchInput(e.target.value);
+  }
+
   return (
     <div className='app-container'>
-      {openedNote !== null ? (<OpenNote noteData={openedNote} closeNote={handleCloseNote} starNote={handleStarNote} deleteNote={handleDeleteNote} />) : ""}
+      {openedNote !== null ? (<OpenNote noteData={openedNote} closeNote={handleCloseNote} deleteNote={handleDeleteNote} editNote={handleEditNote} />) : ""}
       {openNewNote ? (<AddNote handleAddNote={addNote} closeNewNote={handleCloseNewNote} />) : ""}
       <div className='app-header'>
         <h1>Notes list</h1>
+        <div className='search-input-container'>
+          <input onChange={handleSearchBar} />
+          <FaSearch />
+        </div>
         <button className='add-note-btn' onClick={handleNewNoteBtn}><FaPlus/>New note</button>
       </div>
       {
         notes.length === '0' ? 
         (<h3>Nothing to see here</h3>) : 
-        (<NotesList starNote={handleStarNote} deleteNote={handleDeleteNote} openNote={handleOpenNote} notes={notes}/>)
+        (<NotesList starNote={handleStarNote} deleteNote={handleDeleteNote} openNote={handleOpenNote} notes={notes} searchInput={searchInput} />)
       }
     </div>
   )
 }
 
 export default App
-
-
-//   const [notes, setNotes] = useState([
-//     {
-//       id: nanoid(),
-//       title: "First note title",
-//       star: false,
-//       date: "15/04/2023",
-//       content: "Text of this first note"
-//     },
-//     {
-//       id: nanoid(),
-//       title: "Second note title",
-//       star: true,
-//       date: "16/04/2023",
-//       content: "Text of this second note"
-//     },
-//     {
-//       id: nanoid(),
-//       title: "Third note title",
-//       star: false,
-//       date: "15/04/2023",
-//       content: "Text of this third note"
-//     },
-//     {
-//       id: nanoid(),
-//       title: "Fourth note title",
-//       star: false,
-//       date: "15/04/2023",
-//       content: "Text of this fourth note"
-//     },
-//     {
-//       id: nanoid(),
-//       title: "Fifth note title",
-//       star: false,
-//       date: "15/04/2023",
-//       content: "Text of this fifth note"
-//     }
-// ]);

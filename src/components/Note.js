@@ -20,7 +20,7 @@ function Note({noteData, starNote, openNote, deleteNote }) {
     }
 
   return (
-    <div className='note-container' onClick={handleOpenNote} key={noteData.id}>
+    <div className='note-container' style={{backgroundColor: noteData.color}} onClick={handleOpenNote} key={noteData.id}>
         <div className='note-header'>
             <div className='note-header-first-row'>
                 <div className='note-header-first-row-col'>
